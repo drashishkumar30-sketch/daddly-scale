@@ -6,31 +6,28 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Screenshot Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 
 body {
     margin: 0;
-    background: linear-gradient(135deg, #fff9fc, #ffeef5, #ffffff);
+    background: linear-gradient(135deg, #fff5f7, #ffeaea, #ffffff);
     font-family: 'Quicksand', sans-serif;
     text-align: center;
     overflow-x: hidden;
-    color: #5a0033;
-    transition: 0.5s ease;
+    color: #5a000f;
 }
 
 .container {
     background: rgba(255,255,255,0.95);
-    padding: 50px;
+    padding: 40px;
     border-radius: 25px;
-    width: 60%;
-    margin: 80px auto;
-    box-shadow: 0 10px 30px rgba(255,182,193,0.3);
-    border: 1px solid #ffd6e8;
-    position: relative;
-    transition: 0.5s ease;
+    width: 90%;
+    max-width: 500px;
+    margin: 60px auto;
+    box-shadow: 0 10px 30px rgba(255,0,0,0.15);
+    border: 1px solid #ffd6d6;
 }
 
 h1, h2 {
@@ -44,18 +41,14 @@ button {
     border: none;
     font-size: 15px;
     cursor: pointer;
-    background: linear-gradient(45deg, #ff8fb3, #ffc2d9);
+    background: linear-gradient(45deg, #ff2e2e, #ff6b6b);
     color: white;
     transition: 0.3s ease;
 }
 
 button:hover {
     transform: scale(1.08);
-    box-shadow: 0 0 15px #ffc2d9;
-}
-
-input[type="file"] {
-    margin: 15px 0;
+    box-shadow: 0 0 15px rgba(255,0,0,0.4);
 }
 
 .image-wrapper {
@@ -65,10 +58,11 @@ input[type="file"] {
 }
 
 #preview {
-    max-width: 250px;
+    width: 100%;
+    max-width: 300px;
     border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    transition: 0.5s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: 0.4s ease;
 }
 
 .claimed-stamp {
@@ -76,28 +70,35 @@ input[type="file"] {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-15deg);
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
-    color: #ff4d88;
-    border: 3px solid #ff4d88;
-    padding: 10px 20px;
+    color: #ff1a1a;
+    border: 3px solid #ff1a1a;
+    padding: 8px 18px;
     border-radius: 15px;
     opacity: 0;
-    transition: 0.5s ease;
+    transition: 0.4s ease;
+}
+
+.zoom {
+    transform: scale(1.08);
 }
 
 .response {
     margin-top: 20px;
     font-weight: 600;
     font-size: 18px;
-    color: #ff66a3;
+    color: #cc0000;
+}
+
+.meal-message {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 15px;
+    color: #b30000;
 }
 
 .hidden { display: none; }
-
-.zoom {
-    transform: scale(1.1);
-}
 
 .heart {
     position: fixed;
@@ -111,13 +112,6 @@ input[type="file"] {
     to { transform: translateY(-120vh); opacity: 0; }
 }
 
-.meal-message {
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 15px;
-    color: #ff4d88;
-}
-
 </style>
 </head>
 
@@ -125,16 +119,15 @@ input[type="file"] {
 
 <div class="container" id="captureArea">
 
-<h1>Upload the Evidence 😌</h1>
-
-<input type="file" accept="image/*" onchange="previewImage(event)">
+<h1>Rate the vibe 😌</h1>
 
 <div class="image-wrapper">
-    <img id="preview" class="hidden">
+    <!-- CHANGE THIS if your image name is different -->
+    <img id="preview" src="ashish.jpg">
     <div id="stamp" class="claimed-stamp">CLAIMED 😌</div>
 </div>
 
-<h2>Rate the vibe 👀</h2>
+<h2>Choose wisely 👀</h2>
 
 <button onclick="rate('Daddly')">Daddly</button>
 <button onclick="rate('Daddlier')">Daddlier</button>
@@ -152,16 +145,6 @@ You are going to get this meal tomorrow. 🍽️🔥
 
 <script>
 
-function previewImage(event){
-    const reader = new FileReader();
-    reader.onload = function(){
-        const img = document.getElementById('preview');
-        img.src = reader.result;
-        img.classList.remove('hidden');
-    }
-    reader.readAsDataURL(event.target.files[0]);
-}
-
 function rate(level){
 
     const result = document.getElementById("result");
@@ -176,29 +159,26 @@ function rate(level){
     saveBtn.classList.add("hidden");
 
     if(level === "Daddly"){
-        result.innerHTML = "Hmm. Starting strong 😌";
+        result.innerHTML = "Strong presence 😌";
     }
     else if(level === "Daddlier"){
-        result.innerHTML = "Confidence rising. Dangerous territory.";
+        result.innerHTML = "Danger level rising 🔥";
     }
     else{
-
-        result.innerHTML = "Daddliest confirmed. Case closed. 🔥";
-
+        result.innerHTML = "Daddliest confirmed. No debate.";
         img.classList.add("zoom");
         stamp.style.opacity = "1";
         heartBurst();
-
         meal.classList.remove("hidden");
         saveBtn.classList.remove("hidden");
     }
 }
 
 function heartBurst(){
-    for(let i=0;i<25;i++){
+    for(let i=0;i<20;i++){
         const heart = document.createElement("div");
         heart.className = "heart";
-        heart.innerHTML = "💗";
+        heart.innerHTML = "❤️";
         heart.style.left = Math.random()*100 + "vw";
         heart.style.bottom = "-20px";
         heart.style.animationDuration = (Math.random()*3+4)+"s";
