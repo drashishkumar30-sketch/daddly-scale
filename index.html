@@ -1,1 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Daddly Scale 😌</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Screenshot Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #fff9fc, #ffeef5, #ffffff);
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+    overflow-x: hidden;
+    color: #5a0033;
+    transition: 0.5s ease;
+}
+
+.container {
+    background: rgba(255,255,255,0.95);
+    padding: 50px;
+    border-radius: 25px;
+    width: 60%;
+    margin: 80px auto;
+    box-shadow: 0 10px 30px rgba(255,182,193,0.3);
+    border: 1px solid #ffd6e8;
+    position: relative;
+    transition: 0.5s ease;
+}
+
+h1, h2 {
+    font-weight: 600;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 30px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #ff8fb3, #ffc2d9);
+    color: white;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 15px #ffc2d9;
+}
+
+input[type="file"] {
+    margin: 15px 0;
+}
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+#preview {
+    max-width: 250px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: 0.5s ease;
+}
+
+.claimed-stamp {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: 28px;
+    font-weight: 700;
+    color: #ff4d88;
+    border: 3px solid #ff4d88;
+    padding: 10px 20px;
+    border-radius: 15px;
+    opacity: 0;
+    transition: 0.5s ease;
+}
+
+.response {
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #ff66a3;
+}
+
+.hidden { display: none; }
+
+.zoom {
+    transform: scale(1.1);
+}
+
+.heart {
+    position: fixed;
+    font-size: 20px;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
+}
+
+.meal-message {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 15px;
+    color: #ff4d88;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="captureArea">
+
+<h1>Upload the Evidence 😌</h1>
+
+<input type="file" accept="image/*" onchange="previewImage(event)">
+
+<div class="image-wrapper">
+    <img id="preview" class="hidden">
+    <div id="stamp" class="claimed-stamp">CLAIMED 😌</div>
+</div>
+
+<h2>Rate the vibe 👀</h2>
+
+<button onclick="rate('Daddly')">Daddly</button>
+<button onclick="rate('Daddlier')">Daddlier</button>
+<button onclick="rate('Daddliest')">Daddliest</button>
+
+<div id="result" class="response"></div>
+
+<div id="mealMessage" class="meal-message hidden">
+You are going to get this meal tomorrow. 🍽️🔥
+</div>
+
+<button id="saveBtn" class="hidden" onclick="saveScreenshot()">Save Screenshot 📸</button>
+
+</div>
+
+<script>
+
+function previewImage(event){
+    const reader = new FileReader();
+    reader.onload = function(){
+        const img = document.getElementById('preview');
+        img.src = reader.result;
+        img.classList.remove('hidden');
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+function rate(level){
+
+    const result = document.getElementById("result");
+    const img = document.getElementById("preview");
+    const stamp = document.getElementById("stamp");
+    const meal = document.getElementById("mealMessage");
+    const saveBtn = document.getElementById("saveBtn");
+
+    img.classList.remove("zoom");
+    stamp.style.opacity = "0";
+    meal.classList.add("hidden");
+    saveBtn.classList.add("hidden");
+
+    if(level === "Daddly"){
+        result.innerHTML = "Hmm. Starting strong 😌";
+    }
+    else if(level === "Daddlier"){
+        result.innerHTML = "Confidence rising. Dangerous territory.";
+    }
+    else{
+
+        result.innerHTML = "Daddliest confirmed. Case closed. 🔥";
+
+        img.classList.add("zoom");
+        stamp.style.opacity = "1";
+        heartBurst();
+
+        meal.classList.remove("hidden");
+        saveBtn.classList.remove("hidden");
+    }
+}
+
+function heartBurst(){
+    for(let i=0;i<25;i++){
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.bottom = "-20px";
+        heart.style.animationDuration = (Math.random()*3+4)+"s";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),7000);
+    }
+}
+
+function saveScreenshot(){
+    const captureArea = document.getElementById("captureArea");
+
+    html2canvas(captureArea).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "Daddliest_Mode.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+
+</script>
+
+</body>
+</html>
